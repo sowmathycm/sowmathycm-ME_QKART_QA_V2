@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -26,7 +27,7 @@ public class Home {
     public Boolean PerformLogout() throws InterruptedException {
         try {
             // Find and click on the Logout Button
-            WebElement logout_button = driver.findElement(By.className("MuiButton-text"));
+            WebElement logout_button = driver.findElement(By.xpath("//button[contains(text(), 'Logout')]"));
             logout_button.click();
 
             // Wait for Logout to Complete

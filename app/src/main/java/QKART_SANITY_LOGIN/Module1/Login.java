@@ -14,9 +14,11 @@ public class Login {
     RemoteWebDriver driver;
     String url = "https://crio-qkart-frontend-qa.vercel.app/login";
 
-    public Login(RemoteWebDriver driver) {
-        this.driver = driver;
+    public Login(RemoteWebDriver driver2) {
+        this.driver = driver2;
     }
+
+  //  public Login() {}
 
     public void navigateToLoginPage() {
         if (!this.driver.getCurrentUrl().equals(this.url)) {
@@ -26,13 +28,14 @@ public class Login {
 
     public Boolean PerformLogin(String Username, String Password) throws InterruptedException {
         // Find the Username Text Box
+        //Thread.sleep(3000);
         WebElement username_txt_box = this.driver.findElement(By.id("username"));
 
         // Enter the username
         username_txt_box.sendKeys(Username);
 
         // Wait for user name to be entered
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
         // Find the password Text Box
         WebElement password_txt_box = this.driver.findElement(By.id("password"));
@@ -41,7 +44,7 @@ public class Login {
         password_txt_box.sendKeys(Password);
 
         // Find the Login Button
-        WebElement login_button = driver.findElement(By.className("button"));
+        WebElement login_button = driver.findElement(By.xpath("//button[contains(text(), 'Login to QKart')]"));
 
         // Click the login Button
         login_button.click();
@@ -56,7 +59,7 @@ public class Login {
         try {
             // Find the username label (present on the top right of the page)
             WebElement username_label;
-             username_label = this.driver.findElement(By.id("username-text"));
+             username_label = this.driver.findElement(By.className("username-text"));
             return username_label.getText().equals(Username);
         } catch (Exception e) {
             return false;

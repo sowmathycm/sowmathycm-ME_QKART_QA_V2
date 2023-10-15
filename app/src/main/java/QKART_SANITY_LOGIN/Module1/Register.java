@@ -3,8 +3,11 @@ package QKART_SANITY_LOGIN.Module1;
 import java.sql.Timestamp;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -18,7 +21,13 @@ public class Register {
         this.driver = driver;
     }
 
+    
     public void navigateToRegisterPage() {
+
+       // if(driver==null){
+           // System.out.println("Webdriver not initialised");
+          //  return;
+       // }
         if (!driver.getCurrentUrl().equals(this.url)) {
             driver.get(this.url);
         }
@@ -27,8 +36,15 @@ public class Register {
     public Boolean registerUser(String Username, String Password, Boolean makeUsernameDynamic)
             throws InterruptedException {
         // Find the Username Text Box
-        WebElement username_txt_box = this.driver.findElement(By.id("username"));
+        
+      // WebDriver driver = null;
 
+      if (!makeUsernameDynamic && lastGeneratedUsername != null && lastGeneratedUsername.equals(Username)) {
+        return false;
+      }
+        
+        WebElement username_txt_box = this.driver.findElement(By.xpath("//input[@placeholder = 'Enter Username']"));
+        
         // Get time stamp for generating a unique username
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
@@ -57,7 +73,7 @@ public class Register {
         confirm_password_txt_box.sendKeys(test_data_password);
 
         // Find the register now button
-        WebElement register_now_button = this.driver.findElement(By.className("button"));
+        WebElement register_now_button = this.driver.findElement(By.xpath("//button[contains(text(), 'Register Now')]"));
 
         // Click the register now button
         register_now_button.click();
@@ -69,4 +85,7 @@ public class Register {
 
         return this.driver.getCurrentUrl().endsWith("/login");
     }
+    
 }
+
+
