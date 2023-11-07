@@ -14,11 +14,9 @@ public class Login {
     RemoteWebDriver driver;
     String url = "https://crio-qkart-frontend-qa.vercel.app/login";
 
-    public Login(RemoteWebDriver driver2) {
-        this.driver = driver2;
+    public Login(RemoteWebDriver driver) {
+        this.driver = driver;
     }
-
-  //  public Login() {}
 
     public void navigateToLoginPage() {
         if (!this.driver.getCurrentUrl().equals(this.url)) {
@@ -59,7 +57,7 @@ public class Login {
         try {
             // Find the username label (present on the top right of the page)
             WebElement username_label;
-             username_label = this.driver.findElement(By.className("username-text"));
+            username_label = this.driver.findElement(By.className("username-text"));
             return username_label.getText().equals(Username);
         } catch (Exception e) {
             return false;

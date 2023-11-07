@@ -21,13 +21,7 @@ public class Register {
         this.driver = driver;
     }
 
-    
     public void navigateToRegisterPage() {
-
-       // if(driver==null){
-           // System.out.println("Webdriver not initialised");
-          //  return;
-       // }
         if (!driver.getCurrentUrl().equals(this.url)) {
             driver.get(this.url);
         }
@@ -38,7 +32,7 @@ public class Register {
         // Find the Username Text Box
         
       // WebDriver driver = null;
-
+      Thread.sleep(2000);
       if (!makeUsernameDynamic && lastGeneratedUsername != null && lastGeneratedUsername.equals(Username)) {
         return false;
       }
@@ -53,7 +47,7 @@ public class Register {
             // Concatenate the timestamp to string to form unique timestamp
             test_data_username = Username + "_" + String.valueOf(timestamp.getTime());
         else
-             test_data_username = Username + "_" + String.valueOf(timestamp.getTime());
+        test_data_username = Username;
 
         // Type the generated username in the username field
         username_txt_box.sendKeys(test_data_username);
