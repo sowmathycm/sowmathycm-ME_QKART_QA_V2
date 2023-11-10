@@ -47,9 +47,10 @@ public class SearchResult {
 
             // TODO: CRIO_TASK_MODULE_TEST_AUTOMATION - TEST CASE 04: MILESTONE 2
             // Find the link of size chart in the parentElement and click on it
-            Thread.sleep(2000);
-            WebElement open = parentElement.findElement(By.xpath("//div[@class='MuiCardContent-root css-1qw96cp']/button[contains(text(), 'Size chart')]"));
+          
+            WebElement open = parentElement.findElement(By.xpath(".//button[text()='Size chart']"));
             open.click();
+            Thread.sleep(2000);
             return true;
         } catch (Exception e) {
             System.out.println("Exception while opening Size chart: " + e.getMessage());
@@ -88,21 +89,22 @@ public class SearchResult {
              * the element is "SIZE CHART". If the text "SIZE CHART" matches for the
              * element, set status = true , else set to false
              */
-            Thread.sleep(2000);
-            WebElement sizechart = parentElement.findElement(By.xpath("//div[@class='MuiCardContent-root css-1qw96cp']/button[contains(text(), 'Size chart')]"));
-           if(sizechart.isDisplayed() && sizechart.getText().equals("SIZE CHART")){
+           
+            WebElement sizechart = parentElement.findElement(By.xpath(".//button[text()='Size chart']"));
+           if(sizechart.isDisplayed()){
+            String text = sizechart.getText();
+            if(text.toUpperCase().equals("SIZE CHART")){
+                status = true;
+            }
+
+          
             
-            status = true;
-           }
-           else{
-            
-            status = false;
-           }
-            
-        } catch (Exception e) {
+        } return status;
+    }
+        catch (Exception e) {
             return status;
         }
-        return status;
+        
     }
 
     /*
@@ -123,29 +125,35 @@ public class SearchResult {
              * Validate that the contents of expectedTableBody are present in the table body
              * in the same order
              */
-            Thread.sleep(2000);
-            WebElement sizechart = driver.findElement(By.xpath("//table[@class='MuiTable-root css-1v2fgo1']"));
-            List<WebElement> tableheaders = sizechart.findElements(By.tagName("th"));
-            List<String> actualTable = new ArrayList<>();
-            for(WebElement tableheader : tableheaders){
-             actualTable.add(tableheader.getText());
-            }
-            List<WebElement> tableBody = sizechart.findElements(By.tagName("tr"));
-            List<List<String>> actualTableBody = new ArrayList<>();
-            for(WebElement row : tableBody){
-                List<WebElement> rowCells = row.findElements(By.tagName("td"));
-                List<String> rowData = new ArrayList<>();
-                for(WebElement cell : rowCells){
-                    rowData.add(cell.getText());
+            
+           // Thread.sleep(2000);
+             for(int i=0; i < expectedTableHeaders.size(); i++){
+                String expected = expectedTableHeaders.get(i);
+                int row = i + 1;
+                WebElement tableHeadElement = driver.findElement(By.xpath("//table/thead/tr/th[" + row + "]"));
+                String actual = tableHeadElement.getText();
+                if(!expected.equals(actual)){
+                    status = false;
                 }
-                actualTableBody.add(rowData);
-            }
-            if(!expectedTableHeaders.equals(actualTable) || !expectedTableBody.equals(actualTableBody)){
-                status = false;
-            }
-            status = true;
-            return status;
+             }
+          
+             for(int i=0; i < expectedTableBody.size(); i++){
+                List<String> rowData = expectedTableBody.get(i);
 
+                for(int j=0; j < rowData.size(); j++){
+                    String expectedTableBodyValue = rowData.get(j);
+                    int row = i+1;
+                    int column = j+1;
+                    WebElement element = driver.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + column + "]"));
+                    String actualTableBodyValue = element.getText();
+                    if(!expectedTableBodyValue.equals(actualTableBodyValue))
+                    {
+                        status = false;
+                    }
+                }
+
+             }
+             return status;
         } catch (Exception e) {
             System.out.println("Error while validating chart contents");
             return false;
@@ -160,16 +168,14 @@ public class SearchResult {
         try {
             // TODO: CRIO_TASK_MODULE_TEST_AUTOMATION - TEST CASE 04: MILESTONE 2
             // If the size dropdown exists and is displayed return true, else return false
-            List<WebElement> sizeDropDown = driver.findElements(By.xpath("//select[@id='uncontrolled-native']"));
-            if(!sizeDropDown.isEmpty() && sizeDropDown.get(0).isDisplayed()){
-                status = true;
-            }else{
-                 status = false;
-            }
+            Thread.sleep(3000);
+            WebElement sizeDropDown = driver.findElement(By.xpath("//select[@name='age']"));
+            status = sizeDropDown.isDisplayed();
+            return status;
         
         } catch (Exception e) {
             return status;
         }
-        return status;
-    }
+       
+}
 }
