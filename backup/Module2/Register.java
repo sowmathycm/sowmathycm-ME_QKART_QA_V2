@@ -9,7 +9,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -18,8 +17,8 @@ public class Register {
     String url = "https://crio-qkart-frontend-qa.vercel.app/register";
     public String lastGeneratedUsername = "";
 
-    public Register(RemoteWebDriver driver2) {
-        this.driver = driver2;
+    public Register(RemoteWebDriver driver) {
+        this.driver = driver;
     }
 
     public void navigateToRegisterPage() {
@@ -73,13 +72,7 @@ public class Register {
         // Click the register now button
         register_now_button.click();
         // Wait for registration to complete
-        //Thread.sleep(3000);
-
-        // SLEEP_STMT_06: Wait for new user to get created in the backend
-        ExpectedCondition con1 = ExpectedConditions.visibilityOfElementLocated(By.id("notistack-snackbar"));
-        ExpectedCondition con2 = ExpectedConditions.urlContains("/login");
-        WebDriverWait wait = new WebDriverWait(driver, 3);
-        wait.until(ExpectedConditions.or(con1,con2));
+        Thread.sleep(3000);
 
 
         this.lastGeneratedUsername = test_data_username;

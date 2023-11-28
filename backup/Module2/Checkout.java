@@ -37,14 +37,11 @@ public class Checkout {
             address.click();
             WebElement addressarea = driver.findElement(By.xpath("//textarea[@placeholder='Enter your complete address']"));
             addressarea.sendKeys(addresString);
-            WebElement add = driver.findElement(By.xpath("//button[text()='Add']"));//button[text()='Add']")));
+            WebElement add = driver.findElement(By.xpath("//button[text()='Add']"));
             add.click();
-
             
-          //Thread.sleep(2000);
-            WebDriverWait wait = new WebDriverWait(driver, 3);
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='address-item not-selected MuiBox-root css-0']/div[1]/p")));
-            return false;
+          Thread.sleep(2000);
+            return true;
         } 
         catch(Exception e){
             System.out.println("Exception occurred while entering address: " + e.getMessage());

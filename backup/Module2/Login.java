@@ -9,14 +9,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
 
 public class Login {
     RemoteWebDriver driver;
     String url = "https://crio-qkart-frontend-qa.vercel.app/login";
 
-    public Login(RemoteWebDriver driver2) {
-        this.driver = driver2;
+    public Login(RemoteWebDriver driver) {
+        this.driver = driver;
     }
 
     public void navigateToLoginPage() {
@@ -27,14 +26,14 @@ public class Login {
 
     public Boolean PerformLogin(String Username, String Password) throws InterruptedException {
         // Find the Username Text Box
-        // Thread.sleep(3000);
+        //Thread.sleep(3000);
         WebElement username_txt_box = this.driver.findElement(By.id("username"));
 
         // Enter the username
         username_txt_box.sendKeys(Username);
 
         // Wait for user name to be entered
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
         // Find the password Text Box
         WebElement password_txt_box = this.driver.findElement(By.id("password"));
@@ -43,18 +42,15 @@ public class Login {
         password_txt_box.sendKeys(Password);
 
         // Find the Login Button
-        WebElement login_button =
-                driver.findElement(By.xpath("//button[contains(text(), 'Login to QKart')]"));
+        WebElement login_button = driver.findElement(By.xpath("//button[contains(text(), 'Login to QKart')]"));
 
         // Click the login Button
         login_button.click();
 
         // Wait for Login action to complete
-        // Thread.sleep(5000);
-        FluentWait<WebDriver> wait = new FluentWait<WebDriver>(driver)
-                .withTimeout(Duration.ofSeconds(30)).pollingEvery(Duration.ofMillis(250));
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("button")));
-       return this.VerifyUserLoggedIn(Username);
+        Thread.sleep(5000);
+
+        return this.VerifyUserLoggedIn(Username);
     }
 
     public Boolean VerifyUserLoggedIn(String Username) {
