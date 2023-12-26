@@ -51,7 +51,7 @@ public class Login {
         wait.until(ExpectedConditions.invisibilityOf(login_button));
 
         synchronized (driver) {
-            driver.wait(2000);
+            driver.wait(4000);
         }
         
         return this.VerifyUserLoggedIn(Username);

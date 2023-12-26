@@ -390,7 +390,7 @@ public class QkartSanityV2 {
         }
 
         status = driver.getCurrentUrl().endsWith("/thanks");
-
+        
         homePage.navigateToHome();
         homePage.PerformLogout();
 

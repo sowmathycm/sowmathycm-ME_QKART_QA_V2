@@ -78,12 +78,14 @@ public class Home {
      * Returns Array of Web Elements that are search results and return the same
      */
     public List<WebElement> getSearchResults() {
-        List<WebElement> searchResults = new ArrayList<WebElement>() {
-        };
+        List<WebElement> searchResults = new ArrayList<WebElement>() {};
         try {
+            // TODO: CRIO_TASK_MODULE_TEST_AUTOMATION - TEST CASE 03: MILESTONE 1
             // Find all webelements corresponding to the card content section of each of
             // search results
-            searchResults = driver.findElementsByClassName("css-1qw96cp");
+            Thread.sleep(2000);
+            searchResults = driver
+                    .findElements(By.xpath("//div[@class ='MuiCardContent-root css-1qw96cp']"));
             return searchResults;
         } catch (Exception e) {
             System.out.println("There were no search results: " + e.getMessage());
@@ -98,9 +100,13 @@ public class Home {
     public Boolean isNoResultFound() {
         Boolean status = false;
         try {
+            // TODO: CRIO_TASK_MODULE_TEST_AUTOMATION - TEST CASE 03: MILESTONE 1
             // Check the presence of "No products found" text in the web page. Assign status
             // = true if the element is *displayed* else set status = false
-            status = driver.findElementByXPath("//*[@id=\"root\"]/div/div/div[3]/div[1]/div[2]/div/h4").isDisplayed();
+            Thread.sleep(2000);
+            WebElement noresultElement =
+                    driver.findElement(By.xpath("//h4[contains(text(), 'No products found')]"));
+            status = noresultElement.isDisplayed();
             return status;
         } catch (Exception e) {
             return status;
@@ -111,7 +117,7 @@ public class Home {
      * Return Boolean if add product to cart is successful
      */
     public Boolean addProductToCart(String productName) {
-        try {
+        
             /*
              * Iterate through each product on the page to find the WebElement corresponding
              * to the matching productName
@@ -120,25 +126,46 @@ public class Home {
              * 
              * Return true if these operations succeeds
              */
-            List<WebElement> gridContent = driver.findElementsByClassName("css-sycj1h");
-            for (WebElement cell : gridContent) {
-                if (productName.contains(cell.findElement(By.className("css-yg30e6")).getText())) {
-                    cell.findElement(By.tagName("button")).click();
+        //     List<WebElement> gridContent = driver.findElementsByClassName("css-sycj1h");
+        //     for (WebElement cell : gridContent) {
+        //         if (productName.contains(cell.findElement(By.className("css-yg30e6")).getText())) {
+        //             cell.findElement(By.tagName("button")).click();
 
-                    WebDriverWait wait = new WebDriverWait(driver, 30);
-                    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(
-                            String.format("//*[@class='MuiBox-root css-1gjj37g']/div[1][text()='%s']", productName))));
-                    return true;
-                }
+        //             WebDriverWait wait = new WebDriverWait(driver, 30);
+        //             wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(
+        //                     String.format("//*[@class='MuiBox-root css-1gjj37g']/div[1][text()='%s']", productName))));
+        //             return true;
+        //         }
+        //     }
+        //     // SLEEP_STMT_12: If product found, wait till the product gets added
+        //     // successfully
+        //     System.out.println("Unable to find the given product: " + productName);
+        //     return false;
+        // } catch (Exception e) {
+        //     System.out.println("Exception while performing add to cart: " + e.getMessage());
+        //     return false;
+        // }
+        try{
+        Thread.sleep(2000);
+        List<WebElement> productNameElements = driver.findElements(
+                By.xpath("//p[@class='MuiTypography-root MuiTypography-body1 css-yg30e6']"));
+        List<WebElement> addToCartButtonElements =
+                driver.findElements(By.xpath("//button[text()='Add to cart']"));
+        for (int i = 0; i < productNameElements.size(); i++) {
+            WebElement productNameElement = productNameElements.get(i);
+            String actualProductName = productNameElement.getText();
+            if (actualProductName.equals(productName)) {
+                WebElement addToCartButton = addToCartButtonElements.get(i);
+                addToCartButton.click();
+                return true;
             }
-            // SLEEP_STMT_12: If product found, wait till the product gets added
-            // successfully
-            System.out.println("Unable to find the given product: " + productName);
-            return false;
-        } catch (Exception e) {
-            System.out.println("Exception while performing add to cart: " + e.getMessage());
-            return false;
         }
+
+        return false;
+    } catch (Exception e) {
+        System.out.println("Exception while performing add to cart: " + e.getMessage());
+        return false;
+    }
     }
 
     /*
@@ -148,6 +175,7 @@ public class Home {
         Boolean status = false;
         try {
             // Find and click on the the Checkout button
+            Thread.sleep(2000);
             WebElement checkoutBtn = driver.findElement(By.className("checkout-btn"));
             checkoutBtn.click();
 
